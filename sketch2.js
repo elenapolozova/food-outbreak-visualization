@@ -258,17 +258,20 @@ function setup() {
   }
   
   // manage buttons
-  bbox0 = openSansBold.textBounds("intro", 794, 162, 12);
-  var introButton = new LabeledButton("intro", 794, 162, bbox0.w + 8, 20, 200, greenGradient[1]);
+  
+  var scootLeft = 30;
+  
+  bbox0 = openSansBold.textBounds("intro", 794 - scootLeft, 162, 12);
+  var introButton = new LabeledButton("intro", 794- scootLeft, 162, bbox0.w + 8, 20, 200, greenGradient[1]);
   buttons.push(introButton);
-  bbox1 = openSansBold.textBounds("structure", 794, 162, 12);
-  var exploreButton = new LabeledButton("structure", 794 + bbox0.w + 20, 162, bbox1.w + 8, 20, 200, greenGradient[1]);
+  bbox1 = openSansBold.textBounds("structure", 794 - scootLeft, 162, 12);
+  var exploreButton = new LabeledButton("structure", 794 + bbox0.w + 20 - scootLeft, 162, bbox1.w + 8, 20, 200, greenGradient[1]);
   buttons.push(exploreButton);
-  bbox2 = openSansBold.textBounds("dense outbreak", 794 + bbox0.w + bbox1.w + 40, 162, 12);
-  var watchButton = new LabeledButton("dense outbreak", 794 + bbox0.w +bbox1.w + 40, 162, bbox2.w + 8, 20, 200, greenGradient[1]);
+  bbox2 = openSansBold.textBounds("dense outbreak", 794 + bbox0.w + bbox1.w + 40 - scootLeft, 162, 12);
+  var watchButton = new LabeledButton("dense outbreak", 794 + bbox0.w +bbox1.w + 40 - scootLeft, 162, bbox2.w + 8, 20, 200, greenGradient[1]);
   buttons.push(watchButton);
-  bbox3 = openSansBold.textBounds("sparse outbreak", 794 + bbox0.w + bbox1.w + bbox2.w + 60, 162, 12);
-  var sparseButton = new LabeledButton("sparse outbreak", 794 + bbox0.w +bbox1.w + bbox2.w + 60, 162, bbox3.w + 8, 20, 200, greenGradient[1]);
+  bbox3 = openSansBold.textBounds("sparse outbreak", 794 + bbox0.w + bbox1.w + bbox2.w + 60 - scootLeft, 162, 12);
+  var sparseButton = new LabeledButton("sparse outbreak", 794 + bbox0.w +bbox1.w + bbox2.w + 60 - scootLeft, 162, bbox3.w + 8, 20, 200, greenGradient[1]);
   buttons.push(sparseButton);
 }
 
@@ -307,8 +310,9 @@ function draw() {
     
     push();
     noStroke();
-    fill(0);
+    fill(75);
     textFont(openSansReg);
+    //textFont(crimson);
     textSize(13);
     textAlign(CENTER,TOP);
     moveDown = 38;
@@ -326,7 +330,7 @@ function draw() {
   }
   
   if (currentScreen == "dense outbreak"){
-    sOutbreakFrame = -1;
+    sOutbreakFrame = -1; // reset the sparse outbreak, if one was underway
     nodes = watch1Nodes;
     numNodes = watch1numNodes;
     screenPMFOverTime = pmfOverTime;
@@ -335,8 +339,8 @@ function draw() {
       if (buttons[b].label !== "dense outbreak"){buttons[b].deselect();}
       else {buttons[b].select()}
     }
-    //playButton = new PlayPauseButton(1020, 204, 15, 15, 200, contamColor);
-    //playButton.display();
+    //playButton = new PlayPauseButton(1020, 204, 15, 15, 200, contamColor); // uncomm
+    playButton.display(); // uncomm
     
     if (dOutbreakFrame < 0){ // initialize
       dOutbreakFrame = 0;
@@ -432,11 +436,12 @@ function draw() {
     
     push();
     noStroke()
-    textSize(16);
-    textFont(robotoSlab);
-    fill(100);
+    textSize(17.5);
+    //textFont(robotoSlab);
+    textFont(crimson)
+    fill(75);
     textAlign(LEFT, TOP);
-    text("Simulating a Tomato Network", 783, 200);
+    text("Simulating a Tomato Network", 783, 198);
     textFont(openSansReg)
     fill(0)
     textSize(12);
@@ -448,9 +453,9 @@ function draw() {
     pop();
     
     textAlign(LEFT, TOP);
-    tgBounds = openSansBold.textBounds("toggle show real source", 885, 405);
-    sourceToggleButton = new LabeledButton("toggle show real source", 794, 571, tgBounds.w+8, tgBounds.h+4, 200);
-    sourceToggleButton.display();
+    //tgBounds = openSansBold.textBounds("toggle show real source", 885, 405);
+    //sourceToggleButton = new LabeledButton("toggle show real source", 794, 571, tgBounds.w+8, tgBounds.h+4, 200);
+    //sourceToggleButton.display();
     
     // do hover effects
   hovering = false;
@@ -482,7 +487,8 @@ function draw() {
   } // end if
   hoveredInLastFrame = hovering; // end hover effects
     
-    if (reportInd < reg1ContamReports.length){
+    //print(playButton.isPlaying)
+    if (reportInd < reg1ContamReports.length && playButton.isPlaying){
       dOutbreakFrame = dOutbreakFrame + 1;
     }
     
@@ -626,13 +632,14 @@ function draw() {
     
     push();
     noStroke()
-    textSize(16);
-    textFont(robotoSlab);
+    textSize(17.5);
+    //textFont(robotoSlab);
+    textFont(crimson)
     fill(100);
     textAlign(LEFT, TOP);
-    text("Simulating a Tomato Network", 783, 200);
-    //playButton = new PlayPauseButton(1020, 204, 15, 15, 200, contamColor);
-    //playButton.display();
+    text("Simulating a Tomato Network", 783, 198);
+    //playButton = new PlayPauseButton(1020, 204, 15, 15, 200, contamColor); // uncomm
+    playButton.display(); // uncomm
     textFont(openSansReg)
     fill(0)
     textSize(12);
@@ -644,11 +651,11 @@ function draw() {
     pop();
     
     textAlign(LEFT, TOP);
-    tgBounds = openSansBold.textBounds("toggle show real source", 885, 405);
-    sourceToggleButton = new LabeledButton("toggle show real source", 794, 571, tgBounds.w+8, tgBounds.h+4, 200);
-    sourceToggleButton.display();
+    //tgBounds = openSansBold.textBounds("toggle show real source", 885, 405);
+    //sourceToggleButton = new LabeledButton("toggle show real source", 794, 571, tgBounds.w+8, tgBounds.h+4, 200);
+    //sourceToggleButton.display();
     
-    if (reportInd < reg1ContamReports.length){
+    if (reportInd < reg1ContamReports.length && playButton.isPlaying){
       sOutbreakFrame = sOutbreakFrame + 1;
     }
     
@@ -736,13 +743,16 @@ function draw() {
   
   // draw title always
   push();
-  textFont(robotoSlab);
-  textSize(28);
+  noStroke();
+  //textFont(robotoSlab);
+  textFont(crimson);
+  textSize(32);
   textAlign(LEFT, TOP);
   fill(0)
-  var moveUpBy = 56;
-  text("Contamination Outbreaks", 783, 135-moveUpBy)
-  text("in Food Supply Chain Networks", 783, 170-moveUpBy)
+  var moveUpBy = 63;
+  var deIndent = 20;
+  text("Contamination Outbreaks", 783 - deIndent, 135-moveUpBy)
+  text("in Food Supply Chain Networks", 783 - deIndent, 170-moveUpBy)
   pop();
   
   
@@ -751,7 +761,9 @@ function draw() {
 
 // take in data from all the files
 function preload() {
-  robotoSlab = loadFont("assets/RobotoSlab-Regular.ttf");
+  robotoSlab = loadFont("assets/RobotoSlab-Regular.ttf"); // imported for no reason, left to be safe
+  //PTSerif = robotoSlab = loadFont("assets/PT_Serif-Web-Regular.ttf");
+  crimson = loadFont("assets/CrimsonText-Roman.ttf")
   loraReg = loadFont("assets/Lora-Regular.ttf");
   loraBold = loadFont("assets/Lora-Bold.ttf");
   openSansReg = loadFont("assets/OpenSans-Regular.ttf");
@@ -812,6 +824,20 @@ function PMF(x, y, w, h){
       stroke(greenGradient[1])
       if (farm === 38 && nodes[farm].isSource){stroke(contamColor)}
       line(mappedX, y, mappedX, mappedY);
+      
+      noStroke();
+      fill(220);
+      textSize(12);
+      textFont(openSansReg);
+      
+      var textX = x - 20; 
+      var textY = y;
+      push();
+      translate(textX, textY); // translate to text pos
+      rotate(- PI/2);
+      text("Probability", 14, 0);
+      pop();
+      
     }
     if (this.selectedNode > -1){
       mappedX = map(this.selectedNode, 0, 99, x, x+w);
@@ -827,6 +853,13 @@ function PMF(x, y, w, h){
         text("Farm " + farmID + " has a " + nf(parseFloat(currentPMF[farmID-1]), 1, 2) + " chance of being the source.",mappedX - 5, y+30)
       }
       else {text("Farm " + farmID + " has a " + nf(parseFloat(currentPMF[farmID-1]), 1, 2) + " chance of being the source.",mappedX + 5, y+30);}
+    }
+    else { // draw farm ID x axis label
+      noStroke();
+      fill(190);
+      textSize(12);
+      textFont(openSansReg);
+      text("Farm ID", x + w/2 - 20, y + 10);
     }
     pop();
   } // end display
@@ -1046,7 +1079,7 @@ function ExpNode(id, x, y, w, h, outEdgeInds, outEdgeEnds, emphCol, deEmphCol, i
     noStroke();
     fill(0);
     if (!isReg){
-      textAlign(CENTER);
+      textAlign(CENTER, BOTTOM);
       textSize(11);
       textFont(openSansReg)
       text(this.id, this.x, this.y-this.h);
@@ -1092,6 +1125,10 @@ mouseClicked = function() {
   for (b = 0; b < buttons.length; b++){ // allow user to click buttons
     if (buttons[b].containsCursor()){
       currentScreen = buttons[b].label; // bring us to a new state
+      // initialize the necessary play buttons for the state we just switched to. NEW 11/14/16
+      if (buttons[b].label == "dense outbreak" || buttons[b].label == "sparse outbreak") {
+          playButton = new PlayPauseButton(1005, 204, 15, 15, 200, contamColor); // uncomm
+      }
     }
   } // end for over buttons
   if (typeof sourceToggleButton != 'undefined' && sourceToggleButton.containsCursor()){
@@ -1189,31 +1226,53 @@ function PlayPauseButton(x, y, w, h, c, cPlaying){
   // making the parameters belong to the specific button object
   this.x = x;
   this.y = y;
-  this.w = w;
-  this.h = h;
+  this.w = w; // artifact variables from before
+  this.h = h; // artifact variables from before
   this.c = c;
   this.cPlaying = cPlaying;
   this.isPlaying = false;
   
+  this.w_eff = w;
+  this.h_eff = h;
   
   this.display = function(){
-    padding = 4;
+    padding = 3; // actually, increasing this increases the middle width and shrinks the y
     push();
-    if (this.isPlaying){
+    if (!this.isPlaying){ // play button
       stroke(this.cPlaying);
       noFill();
-      rect(this.x, this.y, this.w, this.h);
+      rect(this.x, this.y + 4, this.w + 30, this.h - 1);
+      this.w_eff = this.w + 30; // keep track of fact is currently a play button
+      this.h_eff = this.h - 1; // keep track of fact is currently a play button
       noStroke();
-      fill(this.c);
-      triangle(this.x+padding,this.y+padding, this.x+padding, this.y+this.h-padding, this.x+this.w-padding, this.y+this.h/2);
+      fill(this.cPlaying)
+      textFont(openSansBold);
+      textSize(11);
+      textAlign(LEFT,TOP);
+      text("PLAY", this.x + 4 + 10, this.y)
+      
+      // old play button with the little triangle
+      //noStroke();
+      //fill(this.c);
+      triangle(this.x+padding, this.y+padding + 4, this.x+padding, this.y+this.h-padding + 4, this.x+this.w-padding, this.y+this.h/2 + 4); // terrible, to make triangle tho
     }
-    else{
-      stroke(this.c);
+    else{ // pause button
+      stroke(this.cPlaying); // artifact variable: this.c is now not used for anything
       noFill();
-      rect(this.x, this.y, this.w, this.h);
+      rect(this.x, this.y + 4, this.w + 39, this.h - 1);
+      this.w_eff = this.w + 39; // keep track of fact is currently a play button
+      this.h_eff = this.h - 1; // keep track of fact is currently a play button
+      
       strokeWeight(4);
-      line(this.x+this.w/2-padding, this.y+1.5*padding, this.x+this.w/2-padding, this.y+this.h-1.5*padding);
-      line(this.x+this.w/2+padding, this.y+1.5*padding, this.x+this.w/2+padding, this.y+this.h-1.5*padding);
+      line(this.x+this.w/2-padding, this.y + 1.5*padding + 4, this.x+this.w/2-padding, this.y+this.h - 1.5*padding + 3);
+      line(this.x+this.w/2+padding, this.y + 1.5*padding + 4, this.x+this.w/2+padding, this.y+this.h - 1.5*padding + 3);
+      
+      noStroke();
+      fill(this.cPlaying)
+      textFont(openSansBold);
+      textSize(11);
+      textAlign(LEFT,TOP);
+      text("PAUSE", this.x + 4 + 12, this.y)
     }
     pop();
   }
@@ -1223,7 +1282,7 @@ function PlayPauseButton(x, y, w, h, c, cPlaying){
   }
   
   this.containsCursor = function() {
-    return (mouseX > x && mouseX < x + w && y < mouseY && mouseY < y + h);
+    return (mouseX > this.x && mouseX < this.x + this.w_eff && this.y < mouseY && mouseY < this.y + this.h_eff);
   }
 }
 

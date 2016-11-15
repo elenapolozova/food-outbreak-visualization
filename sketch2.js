@@ -334,7 +334,8 @@ function draw() {
     nodes = watch1Nodes;
     numNodes = watch1numNodes;
     screenPMFOverTime = pmfOverTime;
-    screenPriorPMF = regNet1PriorPMF;
+    screenPriorPMF = regNet1PriorPMF; // seems like this is over time
+    //print(screenPriorPMF)
     for (b = 0; b < buttons.length; b++){
       if (buttons[b].label !== "dense outbreak"){buttons[b].deselect();}
       else {buttons[b].select()}
@@ -448,6 +449,7 @@ function draw() {
     text("Outbreak investigators must contend with a reality of \nlimited access to data, due to the complexity of the food \nsupply and the absence of comprehensive distribution \nrecords. As a result, to test our traceback algorithms \nwe had to simulate both the networks and the outbreak \nevents on the networks based on the little data\nthat was available. ", 794, 220);
     text("Above: output from a graph-theoretic traceback algorithm \nevaluated over the set of contaminated nodes after each \nadditional report. Note that the algorithm converges long \nbefore the outbreak has ended.", 794, 480);
     textFont(openSansItalic);
+    fill(190);
     text("Use left, right arrow keys\n to select a farm.", 1098, 326)
     text("Up arrow key to reset.", 1098, 338+16)
     pop();
@@ -489,6 +491,21 @@ function draw() {
     
     //print(playButton.isPlaying)
     if (reportInd < reg1ContamReports.length && playButton.isPlaying){
+      // add arrow pointing to contaminated case counter
+      push();
+      noStroke();
+      fill(contamColor);
+      arrowX = 72;
+      arrowY = 536;
+      padding = 3;
+      triH = 18;
+      triW = 18;
+      triangle(arrowX+padding, arrowY+padding + 4, arrowX+padding, arrowY+triH-padding + 4, arrowX+triW-padding, arrowY+triH/2 + 4); // terrible, to make triangle tho
+      stroke(contamColor);
+      strokeWeight(2.5);
+      line(arrowX + 3, arrowY + 13, arrowX - 15, arrowY + 13);
+      pop();
+      // increment
       dOutbreakFrame = dOutbreakFrame + 1;
     }
     
@@ -500,7 +517,7 @@ function draw() {
     nodes = watch2Nodes;
     numNodes = watch2numNodes;
     screenPMFOverTime = pmfOverTime2;
-    screenPriorPMF = regNet1PriorPMF2;
+    screenPriorPMF = regNet1PriorPMF2; // This is 2d but with 1 per slot
     for (b = 0; b < buttons.length; b++){
       if (buttons[b].label !== "sparse outbreak"){buttons[b].deselect();}
       else {buttons[b].select()}
@@ -656,6 +673,20 @@ function draw() {
     //sourceToggleButton.display();
     
     if (reportInd < reg1ContamReports.length && playButton.isPlaying){
+      // add arrow pointing to contaminated case counter
+      push();
+      noStroke();
+      fill(contamColor);
+      arrowX = 72;
+      arrowY = 536;
+      padding = 3;
+      triH = 18;
+      triW = 18;
+      triangle(arrowX+padding, arrowY+padding + 4, arrowX+padding, arrowY+triH-padding + 4, arrowX+triW-padding, arrowY+triH/2 + 4); // terrible, to make triangle tho
+      stroke(contamColor);
+      strokeWeight(2.5);
+      line(arrowX + 3, arrowY + 13, arrowX - 15, arrowY + 13);
+      pop();
       sOutbreakFrame = sOutbreakFrame + 1;
     }
     
@@ -835,6 +866,7 @@ function PMF(x, y, w, h){
       push();
       translate(textX, textY); // translate to text pos
       rotate(- PI/2);
+      textAlign(LEFT, TOP);
       text("Probability", 14, 0);
       pop();
       
@@ -858,6 +890,7 @@ function PMF(x, y, w, h){
       noStroke();
       fill(190);
       textSize(12);
+      textAlign(LEFT, TOP)
       textFont(openSansReg);
       text("Farm ID", x + w/2 - 20, y + 10);
     }
